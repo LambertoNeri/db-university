@@ -63,8 +63,6 @@
    FROM `exam_student`
    GROUP BY `exam_id`;
 
-4: SELECT *
+4: SELECT `department_id`, COUNT(`degrees`.`id`) as `degrees_count`
    FROM `degrees`
-   JOIN `departments` ON `degrees`.`department_id` = `departments`.`id`
-   COUNT(`degrees`.`id`) WHERE `degrees`.`department_id` = `departments`.`id`
-   GROUP BY `departments`.`id` 
+   GROUP BY `department_id`;
