@@ -1,0 +1,70 @@
+                                                                      EX - Query con Join
+
+
+1: SELECT * 
+   FROM `degrees` 
+   JOIN `students` on `degrees`.`id` = `students`.`degree_id` 
+   WHERE `degrees`.`name` = 'Corso di Laurea Magistrale in Fisica'; 
+
+2: SELECT * 
+   FROM `departments` 
+   JOIN `degrees` on `degrees`.`department_id` = `departments`.`id` 
+   WHERE `degrees`.`name` 
+   LIKE 'Corso di Laurea Magistrale%' 
+   AND `degrees`.`department_id` = 7;
+
+3: SELECT * 
+   FROM `courses` 
+   JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`course_id` 
+   JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id` 
+   WHERE `teachers`.`id` = 44;
+
+4: SELECT * 
+   FROM `students` 
+   JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id` 
+   JOIN `departments` ON `degrees`.`department_id` = `departments`.`id` 
+   ORDER BY `students`.`surname`;
+
+5: SELECT * 
+   FROM `courses` 
+   JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`course_id` 
+   JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id` 
+   JOIN `degrees` ON `courses`.`degree_id` = `degrees`.`id` ORDER BY `degrees`.`id`;
+
+6: SELECT DISTINCT `teachers`.`name`, `teachers`.`surname`, `course_teacher`.`teacher_id`, `departments`.`name`
+   FROM `teachers`
+   JOIN `course_teacher` ON `teachers`.`id` = `course_teacher`.`teacher_id`
+   JOIN `courses` ON `course_teacher`.`course_id` = `courses`.`id`
+   JOIN `degrees` ON `courses`.`degree_id` = `degrees`.`id`
+   JOIN `departments` ON `degrees`.`department_id` = `departments`.`id`
+   WHERE `departments`.`id` = 5  
+   ORDER BY `teachers`.`name` ASC;
+
+7: lo faccio dopo (forse)
+
+                                                                                 EX - Query con GROUP BY
+
+1: SELECT 
+      EXTRACT(year FROM `enrolment_date`) AS year,
+      COUNT(ID) AS totale_studenti
+   FROM `students`
+   GROUP BY EXTRACT(year FROM `enrolment_date`);
+
+2: SELECT 
+      `office_address` AS edificio,
+      COUNT(ID) AS totale_insegnati_nello_stesso_edificio
+   FROM `teachers`
+   GROUP BY edificio  
+   ORDER BY `edificio` ASC
+
+3: SELECT
+       `exam_student`.`exam_id`,
+       AVG(`vote`) AS media_voti
+   FROM `exam_student`
+   GROUP BY `exam_id`;
+
+4: SELECT *
+   FROM `degrees`
+   JOIN `departments` ON `degrees`.`department_id` = `departments`.`id`
+   COUNT(`degrees`.`id`) WHERE `degrees`.`department_id` = `departments`.`id`
+   GROUP BY `departments`.`id` 
